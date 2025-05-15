@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -14,13 +15,47 @@ import java.util.List;
 public class ProductoService {
 
     @Autowired
-
     private ProductoRepository productoRepository;
 
+    // Obtener todos los productos
     public List<Producto> findAll(){
         return productoRepository.findAll();
     }
-    //public List<Producto> findById(long id){
-   //     return productoRepository.findById().get();
-    //}
+
+    //Encontrar producto por ID
+    public Producto findById(long id){
+        return productoRepository.findByIdProducto((int) id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+    }
+
+    //Buscar producto por nombre
+    public Producto findByNombre(String nombre){
+        return productoRepository.findByNombre(nombre)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con Nombre: " + nombre));
+    }
+
+    //Buscar producto por precios
+    public List<Producto> findByPrecio(double precio){
+        return productoRepository.findByPrecio(precio);
+    }
+
+    //Buscar por stock
+    public List<Producto> findByStock(int stock){
+        return productoRepository.findByStock( stock );
+    }
+
+    //Buscar por categoria
+    public List<Producto> findByCategoria(String categoria){
+        return productoRepository.findByCategoria(categoria);
+    }
+
+    //Buscar por descuento
+    public List<Producto> findByDescuento(double descuento){
+        return productoRepository.findByDescuento(descuento);
+    }
+
+    //Guardar un nuevo producto
+    public Producto save(Producto producto){
+        return productoRepository.save(producto);
+    }
 }
