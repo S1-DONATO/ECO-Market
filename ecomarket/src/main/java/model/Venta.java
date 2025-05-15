@@ -1,37 +1,41 @@
 package model;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import model.Cliente;
+
+import java.util.List;
 
 @Entity
-@Table(name= "Producto")
+@Table(name = "venta")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 
-public class Producto {
+public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idProducto;
+    private Integer idVenta;
 
     @Column(nullable = false)
-    private String nombre;
+    private Cliente idCliente;
 
     @Column(nullable = false)
-    private String descripcion;
+    private List<Producto> productosVenta;
 
     @Column(nullable = false)
-    private double precio;
+    private String estadoVenta;
 
     @Column(nullable = false)
-    private int stock;
+    private String metodoPago;
 
     @Column(nullable = false)
-    private String categoria;
+    private String direccionEntrega;
 
-    @Column(nullable = true)
-    private double descuento;
+    @Column(nullable = false)
+    private double total;
 
 }
