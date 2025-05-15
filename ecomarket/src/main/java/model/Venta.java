@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import model.Cliente;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,7 +21,7 @@ public class Venta {
     private Integer idVenta;
 
     @Column(nullable = false)
-    private Cliente idCliente;
+    private Cliente nombre;
 
     @Column(nullable = false)
     private List<Producto> productosVenta;
@@ -38,4 +38,71 @@ public class Venta {
     @Column(nullable = false)
     private double total;
 
+    @Column(nullable = false)
+    private Date fechaVenta;
+
+
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Integer getIdVenta() {
+        return idVenta;
+    }
+
+    public void setIdVenta(Integer idVenta) {
+        this.idVenta = idVenta;
+    }
+
+    public Cliente getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(Cliente nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Producto> getProductosVenta() {
+        return productosVenta;
+    }
+
+    public void setProductosVenta(List<Producto> productosVenta) {
+        this.productosVenta = productosVenta;
+    }
+
+    public String getEstadoVenta() {
+        return estadoVenta;
+    }
+
+    public void setEstadoVenta(String estadoVenta) {
+        this.estadoVenta = estadoVenta;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getDireccionEntrega() {
+        return direccionEntrega;
+    }
+
+    public void setDireccionEntrega(String direccionEntrega) {
+        this.direccionEntrega = direccionEntrega;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 }
