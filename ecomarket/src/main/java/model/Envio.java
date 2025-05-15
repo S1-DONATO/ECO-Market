@@ -1,0 +1,41 @@
+package model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Table(name = "Envio")
+
+public class Envio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idEnvio;
+
+    @Column(nullable = false)
+    private int idVenta;
+
+    @Column(nullable = false)
+    private String origen;
+
+    @Column(nullable = false)
+    private String destino;
+
+    @Column(nullable = false)
+    private String estado;
+
+    @Column(nullable = false)
+    private String direccionEntrega;
+
+    @Column(nullable = false)
+    private Date fechaEnvio;
+
+    @Column(nullable = false)
+    private Date fechaEntregaEstimada;
+}
