@@ -15,11 +15,23 @@ public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProducto;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
     private String descripcion;
+
+    @Column(nullable = false)
     private double precio;
+
+    @Column(nullable = false)
     private int stock;
+
+    @Column(nullable = false)
     private String categoria;
+
+    @Column(nullable = true)
     private double descuento;
 
 }
