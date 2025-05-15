@@ -23,6 +23,9 @@ public class Cliente {
     private String nombre;
 
     @Column(nullable = false)
+    private String apellido;
+
+    @Column(nullable = false)
     private String correo;
 
     @Column(nullable = false)
@@ -36,5 +39,8 @@ public class Cliente {
 
     @Column(nullable = false)
     private String direccionEnvio;
+
+    @Column(nullable = false)
+    private String numeroTarjeta;
 
 }
