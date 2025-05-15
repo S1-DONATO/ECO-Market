@@ -31,4 +31,5 @@ public class Proveedor {
     @Column(nullable = false)
     private List<Producto> productosSuminstrado;
 
+
 }
