@@ -32,6 +32,10 @@ public class ClienteService {
         clienteRepository.deleteById(idCliente);
     }
 
+    public List<Cliente> busquedaDeUsuario(String nombre) {
+        return clienteRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
 
 
 }

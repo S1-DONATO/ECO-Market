@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Entity
 @Table(name = "Cliente")
 @Data
@@ -25,7 +23,7 @@ public class Cliente {
     @Column(nullable = false)
     private String apellido;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String correo;
 
     @Column(nullable = false)
@@ -40,11 +38,9 @@ public class Cliente {
     @Column(nullable = false)
     private String direccionEnvio;
 
-<<<<<<< HEAD
     @Column(nullable = false)
     private String numeroTarjeta;
 
-=======
     public Integer getIdCliente() {
         return idCliente;
     }
@@ -59,6 +55,22 @@ public class Cliente {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getNumeroTarjeta() {
+        return numeroTarjeta;
+    }
+
+    public void setNumeroTarjeta(String numeroTarjeta) {
+        this.numeroTarjeta = numeroTarjeta;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getCorreo() {
@@ -100,5 +112,5 @@ public class Cliente {
     public void setDireccionEnvio(String direccionEnvio) {
         this.direccionEnvio = direccionEnvio;
     }
->>>>>>> 6b2a86247e6ae80629f16b46cfd2613551171485
+
 }
