@@ -36,7 +36,7 @@ public class VentaService {
         ventaRepository.deleteById(id);
     }
 
-    // solo hacer un update creo
+    // solo hacer un update creo, no se si es necesario
     public String actualizarEstado(){
 
 
@@ -56,6 +56,7 @@ public class VentaService {
 
     public String generarFactura(Long id){
         Venta venta = ventaRepository.findById(id).orElse(new Venta());
+        double total=0;
         System.out.println("========================================");
         System.out.println("N° de venta: "+venta.getIdVenta());
         System.out.println("Fecha de venta: "+venta.getFechaVenta());
@@ -69,9 +70,8 @@ public class VentaService {
             System.out.println((1+i)+". "+venta.getProductosVenta().get(i));
             i=i+1;
         }
-
         System.out.println("========================================");
-        System.out.println("Total venta: $"+calcularTotal(Long id));
+        System.out.println("Total venta: $"+total);
         System.out.println("========================================");
         return "Factura generada.";
     }
