@@ -16,8 +16,6 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idProducto;
 
-<<<<<<< HEAD
-
     @Column(nullable = false)
     private String nombre;
 
@@ -37,25 +35,62 @@ public class Producto {
     @Column(nullable = false)
     private String categoria;
 
-
-=======
-    @Column(nullable = false)
-    private String nombre;
-
-    @Column(nullable = false)
-    private String descripcion;
-
-    @Column(nullable = false)
-    private double precio;
-
-    @Column(nullable = false)
-    private int stock;
-
-    @Column(nullable = false)
-    private String categoria;
-
->>>>>>> 451d513c84a1d26c0a9faed1221f1091b55223e3
     @Column(nullable = true)
     private double descuento;
 
+    public double getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(double descuento) {
+        this.descuento = descuento;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
 }

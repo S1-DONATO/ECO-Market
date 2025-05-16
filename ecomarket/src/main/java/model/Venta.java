@@ -36,9 +36,6 @@ public class Venta {
     private String direccionEntrega;
 
     @Column(nullable = false)
-    private double total;
-
-    @Column(nullable = false)
     private Date fechaVenta;
 
 
@@ -98,11 +95,5 @@ public class Venta {
         this.direccionEntrega = direccionEntrega;
     }
 
-    public double getTotal() {
-        return total;
-    }
 
-    public void setTotal(double total) {
-        this.total = total;
-    }
 }
