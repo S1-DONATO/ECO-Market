@@ -95,5 +95,8 @@ public class Venta {
         this.direccionEntrega = direccionEntrega;
     }
 
+    public List<Producto> getProductosVentaPrecio(int i) {
+        return productosVenta.getPrecio();
+    }
 
 }
