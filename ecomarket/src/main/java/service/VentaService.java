@@ -2,6 +2,7 @@ package service;
 
 import jakarta.transaction.Transactional;
 import model.Cliente;
+import model.Producto;
 import model.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import repository.VentaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -36,26 +38,40 @@ public class VentaService {
 
     // solo hacer un update creo
     public String actualizarEstado(){
-        return "hola";
+
+
+
+        return "Estado actualizado.";
     }
 
-    // necesita producto lista para funcionar
-    public double calcularTotal(){
-        return 1.2+1.3;
+
+    public double calcularTotal(Long id){
+        Venta venta = ventaRepository.findById(id).orElse(new Venta());
+        double total = 0;
+        for(Producto i: venta.getProductosVenta()){
+            total += i.getPrecio();
+        }
+        return total;
     }
 
-    // simplemente listar la mayoria de cosas en la clase creo
-    public String generarFactura(Venta venta){
+    public String generarFactura(Long id){
+        Venta venta = ventaRepository.findById(id).orElse(new Venta());
         System.out.println("========================================");
-        System.out.println("Fecha de Venta: "+venta.getFechaVenta());
+        System.out.println("N° de venta: "+venta.getIdVenta());
+        System.out.println("Fecha de venta: "+venta.getFechaVenta());
         System.out.println("========================================");
         System.out.println("Factura a: "+venta.getNombre());
         System.out.println("Direccion: "+venta.getDireccionEntrega());
         System.out.println("========================================");
         System.out.println("Productos vendidos:");
+        int i=0;
+        while (i < venta.getProductosVenta().size()) {
+            System.out.println((1+i)+". "+venta.getProductosVenta().get(i));
+            i=i+1;
+        }
 
         System.out.println("========================================");
-        System.out.println("Total venta: $"+venta.getTotal());
+        System.out.println("Total venta: $"+calcularTotal(Long id));
         System.out.println("========================================");
         return "Factura generada.";
     }
