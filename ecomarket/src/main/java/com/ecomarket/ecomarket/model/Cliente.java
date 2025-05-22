@@ -15,7 +15,7 @@ public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCliente;
+    private Long idCliente;
 
     @Column(nullable = false)
     private String nombre;
@@ -42,11 +42,11 @@ public class Cliente {
     private String numeroTarjeta;
 
     @Column(nullable = false)
-    public Integer getIdCliente() {
+    public Long getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
+    public void setIdCliente(Long idCliente) {
         this.idCliente = idCliente;
     }
 

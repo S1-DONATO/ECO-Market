@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +19,19 @@ public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idVenta;
+    private Long idVenta;
 
-    @Column(nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "venta")
     private Cliente nombre;
 
-    @Column(nullable = false)
-    private List<Producto> productosVenta;
+    @ManyToMany
+    @JoinTable(
+            name = "venta_producto",
+            joinColumns = @JoinColumn(name = "venta_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private List<Producto> productos = new ArrayList<>();
 
     @Column(nullable = false)
     private String estadoVenta;
@@ -47,11 +54,11 @@ public class Venta {
         this.fechaVenta = fechaVenta;
     }
 
-    public Integer getIdVenta() {
+    public Long getIdVenta() {
         return idVenta;
     }
 
-    public void setIdVenta(Integer idVenta) {
+    public void setIdVenta(Long idVenta) {
         this.idVenta = idVenta;
     }
 
@@ -64,11 +71,11 @@ public class Venta {
     }
 
     public List<Producto> getProductosVenta() {
-        return productosVenta;
+        return productos;
     }
 
     public void setProductosVenta(List<Producto> productosVenta) {
-        this.productosVenta = productosVenta;
+        this.productos = productosVenta;
     }
 
     public String getEstadoVenta() {

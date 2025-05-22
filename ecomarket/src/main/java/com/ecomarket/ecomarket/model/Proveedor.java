@@ -28,8 +28,8 @@ public class Proveedor {
     @Column(nullable = false)
     private String correo;
 
-    @Column(nullable = false)
-    private List<Producto> productosSuminstrado;
+    //@Column(nullable = false)
+    //private List<Producto> productosSuminstrado;
 
 
 }

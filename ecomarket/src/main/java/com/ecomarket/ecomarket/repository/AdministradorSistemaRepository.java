@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface AdministradorSistemaRepository extends JpaRepository<AdministradorSistema, Long> {
 
-    List<AdministradorSistema> findById(Integer idAdministradorSistema);
+    List<AdministradorSistema> findByIdAdministradorSistema(Long idAdministradorSistema);
 
 }

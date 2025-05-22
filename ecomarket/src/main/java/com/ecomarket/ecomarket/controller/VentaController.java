@@ -44,7 +44,7 @@ public class VentaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venta> actualizar(@PathVariable Integer id, @RequestBody Venta venta){
+    public ResponseEntity<Venta> actualizar(@PathVariable Long id, @RequestBody Venta venta){
         try{
             Venta ven = ventaService.findById(id);
             ven.setIdVenta(id);

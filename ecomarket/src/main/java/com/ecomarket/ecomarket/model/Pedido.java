@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Entity
@@ -16,10 +17,10 @@ import java.util.Map;
 public class Pedido {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
- private int idPedido;
+ private Long idPedido;
 
  @Column(nullable = false)
-    private int idProveedor;
+    private Long idProveedor;
 
  @Column(nullable = false)
     private Date fechaPedido;
@@ -27,9 +28,13 @@ public class Pedido {
  @Column(nullable = false)
     private String metodoPago;
 
-
- @Column(nullable = false)
- private Map<Producto,Integer> Producto;
+    @ManyToMany
+    @JoinTable(
+            name = "pedido_producto",
+            joinColumns = @JoinColumn(name = "pedido_id"),
+            inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private List<Producto> productos;
 
  @Column(nullable = false)
     private double total;

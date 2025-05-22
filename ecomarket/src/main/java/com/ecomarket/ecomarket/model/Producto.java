@@ -2,6 +2,8 @@ package com.ecomarket.ecomarket.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -37,5 +39,8 @@ public class Producto {
 
     @Column(nullable = true)
     private double descuento;
+
+    @ManyToMany(mappedBy = "productos")
+    private List<Pedido> pedidos;  // Relación inversa con Pedido
 
 }
