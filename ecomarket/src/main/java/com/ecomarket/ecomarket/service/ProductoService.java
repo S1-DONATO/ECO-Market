@@ -1,13 +1,12 @@
-package service;
+package com.ecomarket.ecomarket.service;
 
 import jakarta.transaction.Transactional;
-import model.Producto;
-import repository.ProductoRepository;
+import com.ecomarket.ecomarket.model.Producto;
+import com.ecomarket.ecomarket.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional

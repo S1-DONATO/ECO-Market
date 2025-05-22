@@ -1,6 +1,6 @@
-package repository;
+package com.ecomarket.ecomarket.repository;
 
-import model.AdministradorSistema;
+import com.ecomarket.ecomarket.model.AdministradorSistema;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

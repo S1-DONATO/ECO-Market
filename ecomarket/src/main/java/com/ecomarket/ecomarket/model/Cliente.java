@@ -1,4 +1,4 @@
-package model;
+package com.ecomarket.ecomarket.model;
 
 
 import jakarta.persistence.*;

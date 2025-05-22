@@ -1,4 +1,4 @@
-package model;
+package com.ecomarket.ecomarket.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,28 +8,27 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name= "proveedor")
+@Table(name= "administradorSistema")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Proveedor {
+public class AdministradorSistema {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProveedor;
+    private Integer idAdministradorSistema;
 
     @Column(nullable = false)
-    private String nombreProveedor;
+    private String nombreAdministradorSistema;
 
     @Column(nullable = false)
-    private String telefonoProveedor;
+    private String correoAdministradorSistema;
 
     @Column(nullable = false)
-    private String correo;
+    private String telefonoAdministradorSistema;
 
     @Column(nullable = false)
-    private List<Producto> productosSuminstrado;
-
+    private List<String> permisosAsignados;
 
 }

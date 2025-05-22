@@ -1,12 +1,12 @@
-package controller;
+package com.ecomarket.ecomarket.controller;
 
 
-import model.Venta;
+import com.ecomarket.ecomarket.model.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import service.VentaService;
+import com.ecomarket.ecomarket.service.VentaService;
 
 import java.util.List;
 
