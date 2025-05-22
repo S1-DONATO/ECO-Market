@@ -22,7 +22,7 @@ public class ProductoService {
     }
 
     //Encontrar producto por ID
-    public Producto findById(Integer id){
+    public Producto findById(Long id){
         return productoRepository.findByIdProducto(id)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
@@ -39,7 +39,7 @@ public class ProductoService {
     }
 
     //Buscar por stock
-    public List<Producto> findByStock(Integer stock){
+    public List<Producto> findByStock(Long stock){
         return productoRepository.findByStock( stock );
     }
 
