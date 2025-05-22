@@ -28,7 +28,7 @@ public class VentaController {
     }
 
     @PostMapping
-    public ResponseEntity<Venta> guardar(@ResponseBody Venta venta){
+    public ResponseEntity<Venta> guardar(@RequestBody Venta venta){
         Venta nuevaVenta = ventaService.save(venta);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaVenta);
     }
@@ -44,7 +44,7 @@ public class VentaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Venta> actualizar(@PathVariable Integer id, @ResponseBody Venta venta){
+    public ResponseEntity<Venta> actualizar(@PathVariable Integer id, @RequestBody Venta venta){
         try{
             Venta ven = ventaService.findById(id);
             ven.setIdVenta(id);
