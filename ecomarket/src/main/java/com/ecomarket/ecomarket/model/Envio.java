@@ -1,9 +1,7 @@
 package com.ecomarket.ecomarket.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 
@@ -12,6 +10,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Table(name = "Envio")
+@Getter
+@Setter
 
 public class Envio {
     @Id

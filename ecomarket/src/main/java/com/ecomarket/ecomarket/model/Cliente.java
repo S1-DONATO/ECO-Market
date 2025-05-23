@@ -2,15 +2,16 @@ package com.ecomarket.ecomarket.model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "Cliente")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+
 public class Cliente {
 
     @Id
@@ -40,77 +41,5 @@ public class Cliente {
 
     @Column(nullable = false)
     private String numeroTarjeta;
-
-    public Long getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getNumeroTarjeta() {
-        return numeroTarjeta;
-    }
-
-    public void setNumeroTarjeta(String numeroTarjeta) {
-        this.numeroTarjeta = numeroTarjeta;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getCorreo() {
-        return correo;
-    }
-
-    public void setCorreo(String correo) {
-        this.correo = correo;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getMetodoPagoPreferido() {
-        return metodoPagoPreferido;
-    }
-
-    public void setMetodoPagoPreferido(String metodoPagoPreferido) {
-        this.metodoPagoPreferido = metodoPagoPreferido;
-    }
-
-    public String getDireccionEnvio() {
-        return direccionEnvio;
-    }
-
-    public void setDireccionEnvio(String direccionEnvio) {
-        this.direccionEnvio = direccionEnvio;
-    }
 
 }

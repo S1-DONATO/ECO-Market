@@ -1,9 +1,7 @@
 package com.ecomarket.ecomarket.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +12,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 
 public class Venta {
 
@@ -45,61 +45,5 @@ public class Venta {
     @Column(nullable = false)
     private Date fechaVenta;
 
-
-    public Date getFechaVenta() {
-        return fechaVenta;
-    }
-
-    public void setFechaVenta(Date fechaVenta) {
-        this.fechaVenta = fechaVenta;
-    }
-
-    public Long getIdVenta() {
-        return idVenta;
-    }
-
-    public void setIdVenta(Long idVenta) {
-        this.idVenta = idVenta;
-    }
-
-    public Cliente getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(Cliente nombre) {
-        this.nombre = nombre;
-    }
-
-    public List<Producto> getProductosVenta() {
-        return productos;
-    }
-
-    public void setProductosVenta(List<Producto> productosVenta) {
-        this.productos = productosVenta;
-    }
-
-    public String getEstadoVenta() {
-        return estadoVenta;
-    }
-
-    public void setEstadoVenta(String estadoVenta) {
-        this.estadoVenta = estadoVenta;
-    }
-
-    public String getMetodoPago() {
-        return metodoPago;
-    }
-
-    public void setMetodoPago(String metodoPago) {
-        this.metodoPago = metodoPago;
-    }
-
-    public String getDireccionEntrega() {
-        return direccionEntrega;
-    }
-
-    public void setDireccionEntrega(String direccionEntrega) {
-        this.direccionEntrega = direccionEntrega;
-    }
 
 }

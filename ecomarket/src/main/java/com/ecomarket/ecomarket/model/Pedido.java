@@ -1,9 +1,7 @@
 package com.ecomarket.ecomarket.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +12,9 @@ import java.util.Map;
 @NoArgsConstructor
 @Data
 @Table(name = "Pedido")
+@Getter
+@Setter
+
 public class Pedido {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
