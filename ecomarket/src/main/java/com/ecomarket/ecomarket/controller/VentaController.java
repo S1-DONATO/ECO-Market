@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ECO-Market/v1/ventas")
-
 public class VentaController {
 
     @Autowired
@@ -29,12 +28,12 @@ public class VentaController {
 
     @PostMapping
     public ResponseEntity<Venta> guardar(@RequestBody Venta venta){
-        Venta nuevaVenta = ventaService.save(venta);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevaVenta);
+        Venta ventaNueva = ventaService.save(venta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ventaNueva);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscar(@PathVariable Integer id){
+    public ResponseEntity<Venta> buscar(@PathVariable Long id){
         try{
             Venta venta = ventaService.findById(id);
             return ResponseEntity.ok(venta);
@@ -48,11 +47,12 @@ public class VentaController {
         try{
             Venta ven = ventaService.findById(id);
             ven.setIdVenta(id);
-            ven.setEstadoVenta(ven.getEstadoVenta());
-            ven.setFechaVenta(ven.getFechaVenta());
-            ven.setNombre(ven.getNombre());
-            ven.setDireccionEntrega(ven.getDireccionEntrega());
-            ven.setMetodoPago(ven.getMetodoPago());
+            ven.setEstadoVenta(venta.getEstadoVenta());
+            ven.setFechaVenta(venta.getFechaVenta());
+            ven.setNombre(venta.getNombre());
+            ven.setDireccionEntrega(venta.getDireccionEntrega());
+            ven.setMetodoPago(venta.getMetodoPago());
+            ven.setProductos(venta.getProductos());
 
             ventaService.save(ven);
             return ResponseEntity.ok(venta);

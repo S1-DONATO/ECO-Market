@@ -33,15 +33,6 @@ public class VentaService {
         ventaRepository.deleteById(id);
     }
 
-    // solo hacer un update creo, no se si es necesario
-    public String actualizarEstado(){
-
-
-
-        return "Estado actualizado.";
-    }
-
-
     public double calcularTotal(Long id){
         Venta venta = ventaRepository.findById(id).orElse(new Venta());
         double total = 0;
