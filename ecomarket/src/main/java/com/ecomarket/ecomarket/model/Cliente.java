@@ -41,7 +41,6 @@ public class Cliente {
     @Column(nullable = false)
     private String numeroTarjeta;
 
-    @Column(nullable = false)
     public Long getIdCliente() {
         return idCliente;
     }
