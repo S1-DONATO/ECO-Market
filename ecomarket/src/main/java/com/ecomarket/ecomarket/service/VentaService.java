@@ -1,7 +1,6 @@
 package com.ecomarket.ecomarket.service;
 
 import jakarta.transaction.Transactional;
-import com.ecomarket.ecomarket.model.Producto;
 import com.ecomarket.ecomarket.model.Venta;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

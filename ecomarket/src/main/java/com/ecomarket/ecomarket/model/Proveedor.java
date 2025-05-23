@@ -17,7 +17,7 @@ public class Proveedor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idProveedor;
+    private Long idProveedor;
 
     @Column(nullable = false)
     private String nombreProveedor;
@@ -28,8 +28,8 @@ public class Proveedor {
     @Column(nullable = false)
     private String correo;
 
-    //@Column(nullable = false)
-    //private List<Producto> productosSuminstrado;
-
+    @ManyToOne
+    @JoinColumn(name = "proveedor")
+    private Producto productoSuministrado;
 
 }
