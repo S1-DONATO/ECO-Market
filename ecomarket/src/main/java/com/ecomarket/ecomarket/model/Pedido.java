@@ -11,7 +11,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "Pedido")
+@Table(name = "pedido")
 @Getter
 @Setter
 
@@ -20,25 +20,21 @@ public class Pedido {
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  private Long idPedido;
 
- @Column(nullable = false)
-    private Long idProveedor;
+ @ManyToOne
+ @JoinColumn(name = "pedido")
+ private Proveedor proveedorPedido;
 
  @Column(nullable = false)
-    private Date fechaPedido;
+ private Date fechaPedido;
 
  @Column(nullable = false)
-    private String metodoPago;
+ private String metodoPago;
 
-    @ManyToMany
-    @JoinTable(
-            name = "pedido_producto",
-            joinColumns = @JoinColumn(name = "pedido_id"),
-            inverseJoinColumns = @JoinColumn(name = "producto_id")
-    )
-    private List<Producto> productos;
-
- @Column(nullable = false)
-    private double total;
-
+ @ManyToMany
+ @JoinTable(
+         name = "pedido_producto",
+         joinColumns = @JoinColumn(name = "pedido_id"),
+         inverseJoinColumns = @JoinColumn(name = "producto_id")
+ ) private List<Producto> productos;
 
 }
