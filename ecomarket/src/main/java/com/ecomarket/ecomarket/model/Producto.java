@@ -29,10 +29,8 @@ public class Producto {
     @Column(nullable = false)
     private double precio;
 
-
     @Column(nullable = false)
     private Long stock;
-
 
     @Column(nullable = false)
     private String categoria;

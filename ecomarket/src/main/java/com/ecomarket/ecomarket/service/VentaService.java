@@ -45,7 +45,7 @@ public class VentaService {
     public double calcularTotal(Long id){
         Venta venta = ventaRepository.findById(id).orElse(new Venta());
         double total = 0;
-        for(Producto i: venta.getProductosVenta()){
+        for(Producto i: venta.getProductos()){
             total += i.getPrecio();
         }
         return total;
@@ -63,8 +63,8 @@ public class VentaService {
         System.out.println("========================================");
         System.out.println("Productos vendidos:");
         int i=0;
-        while (i < venta.getProductosVenta().size()) {
-            System.out.println((1+i)+". "+venta.getProductosVenta().get(i));
+        while (i < venta.getProductos().size()) {
+            System.out.println((1+i)+". "+venta.getProductos().get(i));
             i=i+1;
         }
         System.out.println("========================================");

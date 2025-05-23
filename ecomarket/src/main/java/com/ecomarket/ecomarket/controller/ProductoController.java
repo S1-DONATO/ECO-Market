@@ -52,7 +52,6 @@ public class ProductoController {
             pro.setDescuento(producto.getDescuento());
             pro.setStock(producto.getStock());
             pro.setPrecio(producto.getPrecio());
-            pro.setPedidos(producto.getPedidos());
 
             productoService.save(pro);
             return ResponseEntity.ok(pro);

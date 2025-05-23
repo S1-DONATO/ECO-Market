@@ -51,7 +51,6 @@ public class VentaController {
             ven.setEstadoVenta(ven.getEstadoVenta());
             ven.setFechaVenta(ven.getFechaVenta());
             ven.setNombre(ven.getNombre());
-            ven.setProductosVenta(ven.getProductosVenta());
             ven.setDireccionEntrega(ven.getDireccionEntrega());
             ven.setMetodoPago(ven.getMetodoPago());
 
