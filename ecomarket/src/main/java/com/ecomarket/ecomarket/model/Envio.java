@@ -16,10 +16,11 @@ import java.util.Date;
 public class Envio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEnvio;
+    private Long idEnvio;
 
-    @Column(nullable = false)
-    private int idVenta;
+    @ManyToOne
+    @JoinColumn(name = "venta_id", nullable = false)
+    private Venta venta;
 
     @Column(nullable = false)
     private String origen;
