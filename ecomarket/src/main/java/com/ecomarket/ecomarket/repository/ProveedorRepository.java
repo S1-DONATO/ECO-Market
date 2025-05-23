@@ -11,8 +11,6 @@ import java.util.List;
 public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
 
     List<Proveedor> findByIdProveedor(Long idProveedor);
-    List<Proveedor> findByNombre(String nombre);
-    List<Proveedor> findByProductoSuministrado(String productoSuministrado);
     List<Proveedor> findByCorreo(String correo);
 
 }
