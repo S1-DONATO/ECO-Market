@@ -36,6 +36,4 @@ public class ClienteService {
         return clienteRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
-
-
 }

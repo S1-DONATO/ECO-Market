@@ -73,14 +73,4 @@ public class ClienteController {
         }
     }
 
-    //??? que?
-    //@GetMapping("{nombre}")
-    //public ResponseEntity<List<Cliente>>buscarPorNombre(String nombre){
-    //    List<Cliente> clienteNombre = clienteService.busquedaDeUsuario(nombre);
-    //    if (clienteNombre.isEmpty()){
-    //        return ResponseEntity.noContent().build();
-    //    }
-    //    return ResponseEntity.ok(clienteNombre);
-    //}
-
 }
