@@ -1,44 +1,32 @@
 package com.ecomarket.ecomarket.model;
+
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
-import java.util.List;
-
-@Getter
-@Setter
 @Entity
-@Table(name= "Producto")
+@Table(name = "producto")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-
 public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_producto")
     private Long idProducto;
 
     @Column(nullable = false)
     private String nombre;
 
-
     @Column(nullable = false)
     private String descripcion;
 
+    @Column(nullable = false)
+    private Double precio;
 
     @Column(nullable = false)
-    private double precio;
+    private Long stock; // Tipo Long
 
-    @Column(nullable = false)
-    private Long stock;
+    private Double descuento;
 
     @Column(nullable = false)
     private String categoria;
-
-    @Column(nullable = true)
-    private double descuento;
-
-    //@ManyToMany(mappedBy = "productos")
-    //private List<Pedido> pedidos;  // Relación inversa con Pedido
-
 }

@@ -1,73 +1,66 @@
 package com.ecomarket.ecomarket.controller;
 
 import com.ecomarket.ecomarket.model.Producto;
+import com.ecomarket.ecomarket.resource.ProductoResource;
+import com.ecomarket.ecomarket.assemblers.ProductoResourceAssembler;
 import com.ecomarket.ecomarket.service.ProductoService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("/ECO-Market/v1/productos")
+@RequestMapping("/api/productos")
 public class ProductoController {
 
-    @Autowired
-    private ProductoService productoService;
+    private final ProductoService productoService;
+    private final ProductoResourceAssembler assembler;
 
-    @GetMapping
-    public ResponseEntity<List<Producto>> listar(){
-        List<Producto> productos = productoService.findAll();
-        if (productos.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(productos);
-    }
-
-    @PostMapping
-    public ResponseEntity<Producto> guardar(@RequestBody Producto producto){
-        Producto productoNuevo = productoService.save(producto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productoNuevo);
+    public ProductoController(ProductoService productoService, ProductoResourceAssembler assembler) {
+        this.productoService = productoService;
+        this.assembler = assembler;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> buscar(@PathVariable Long id){
-        try{
-            Producto producto = productoService.findById(id);
-            return ResponseEntity.ok(producto);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Producto> actualizar(@PathVariable Long id, @RequestBody Producto producto){
-        try{
-            Producto pro = productoService.findById(id);
-            pro.setIdProducto(id);
-            pro.setCategoria(producto.getCategoria());
-            pro.setNombre(producto.getNombre());
-            pro.setDescripcion(producto.getDescripcion());
-            pro.setDescuento(producto.getDescuento());
-            pro.setStock(producto.getStock());
-            pro.setPrecio(producto.getPrecio());
-
-            productoService.save(pro);
-            return ResponseEntity.ok(pro);
-        } catch ( Exception e ) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ProductoResource> obtenerProducto(@PathVariable Long id) {
+        Producto producto = productoService.obtenerProductoPorId(id);
+        if (producto == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(assembler.toModel(producto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Producto> eliminar(@PathVariable Long id){
-        try{
-            productoService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> eliminarProducto(@PathVariable Long id) {
+        productoService.eliminarProducto(id);
+        return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResource> actualizarProducto(@PathVariable Long id, @RequestBody Producto productoActualizado) {
+        Producto updatedProducto = productoService.actualizarProducto(id, productoActualizado);
+        if (updatedProducto == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(assembler.toModel(updatedProducto));
+    }
+
+    @GetMapping
+    public CollectionModel<ProductoResource> listarProductos() {
+        List<Producto> productos = productoService.listarTodosLosProductos();
+        List<ProductoResource> resources = productos.stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(resources,
+                linkTo(methodOn(ProductoController.class).listarProductos()).withSelfRel());
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductoResource> crearProducto(@RequestBody Producto nuevoProducto) {
+        Producto productoGuardado = productoService.crearProducto(nuevoProducto);
+        return ResponseEntity
+                .created(linkTo(methodOn(ProductoController.class).obtenerProducto(productoGuardado.getIdProducto())).toUri())
+                .body(assembler.toModel(productoGuardado));
+    }
 }

@@ -3,62 +3,74 @@ package com.ecomarket.ecomarket.service;
 import jakarta.transaction.Transactional;
 import com.ecomarket.ecomarket.model.Producto;
 import com.ecomarket.ecomarket.repository.ProductoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
-
 public class ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;
 
-    public List<Producto> findAll(){
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
+    public List<Producto> listarTodosLosProductos(){ // Nombre corregido
         return productoRepository.findAll();
     }
 
-    public Producto findById(Long id){
-        return productoRepository.findById(id).get();
-        //alternativa, talvez:
-        //productoRepository.findByIdProducto(id)
-        //                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
+    public Producto obtenerProductoPorId(Long id){ // Nombre corregido
+        return productoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id));
     }
 
-    //talvez no necesario pero veo como seria util
+    public Producto crearProducto(Producto producto){ // Nombre corregido
+        return productoRepository.save(producto);
+    }
+
+    public Producto actualizarProducto(Long id, Producto productoActualizado) { // Nombre corregido
+        return productoRepository.findById(id)
+                .map(productoExistente -> {
+                    productoExistente.setCategoria(productoActualizado.getCategoria());
+                    productoExistente.setNombre(productoActualizado.getNombre());
+                    productoExistente.setDescripcion(productoActualizado.getDescripcion());
+                    productoExistente.setDescuento(productoActualizado.getDescuento());
+                    productoExistente.setStock(productoActualizado.getStock());
+                    productoExistente.setPrecio(productoActualizado.getPrecio());
+                    return productoRepository.save(productoExistente);
+                })
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado con ID: " + id + " para actualizar."));
+    }
+
+    public void eliminarProducto(Long id){ // Nombre corregido
+        if (productoRepository.existsById(id)) {
+            productoRepository.deleteById(id);
+        } else {
+            throw new RuntimeException("Producto no encontrado con ID: " + id + " para eliminar.");
+        }
+    }
+
     public List<Producto> findByCategoria(String categoria){
         return productoRepository.findByCategoria(categoria);
     }
 
-    //talvez no necesario pero veo como seria util
     public Producto findByNombre(String nombre){
         return productoRepository.findByNombre(nombre)
                 .orElseThrow(() -> new RuntimeException("Producto no encontrado con Nombre: " + nombre));
     }
 
-    //talvez no necesario pero veo como seria util
     public List<Producto> findByStock(Long stock){
-        return productoRepository.findByStock( stock );
+        return productoRepository.findByStock(stock);
     }
 
-    //talvez no necesario y no veo como seria util
     public List<Producto> findByPrecio(double precio){
         return productoRepository.findByPrecio(precio);
     }
 
-    //talvez no necesario y no veo como seria util
     public List<Producto> findByDescuento(double descuento){
         return productoRepository.findByDescuento(descuento);
     }
-
-    public Producto save(Producto producto){
-        return productoRepository.save(producto);
-    }
-
-    public void delete(Long id){
-        productoRepository.deleteById(id);
-    }
-
 }
