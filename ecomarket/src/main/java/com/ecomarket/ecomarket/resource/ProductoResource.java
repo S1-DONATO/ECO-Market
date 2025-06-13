@@ -6,7 +6,7 @@ import org.springframework.hateoas.server.core.Relation; // <--- ¡Esta es la im
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Relation(collectionRel = "productos", itemRel = "producto")
+@Relation(collectionRelation = "productos", itemRelation = "producto")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class ProductoResource extends RepresentationModel<ProductoResource> {
