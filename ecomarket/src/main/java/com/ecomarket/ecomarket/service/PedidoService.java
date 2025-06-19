@@ -1,6 +1,7 @@
 package com.ecomarket.ecomarket.service;
 
 import com.ecomarket.ecomarket.model.Pedido;
+import com.ecomarket.ecomarket.model.Proveedor;
 import com.ecomarket.ecomarket.repository.PedidoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class PedidoService {
     public Pedido findById(Long id) {
         return pedidoRepository.findById(id).get();
     }
+
+    //public Pedido findByProveedorPedido(Proveedor proveedor) {return pedidoRepository.findByProveedorPedido(proveedor).get(Proveedor);}
 
     public Pedido save(Pedido pedido) {
         return pedidoRepository.save(pedido);
