@@ -31,4 +31,6 @@ public class PedidoResource extends RepresentationModel<ProductoResource>{
         this.metodoPago = pedido.getMetodoPago();
 
     }
+
+
 }
