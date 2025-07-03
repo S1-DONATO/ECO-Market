@@ -2,75 +2,67 @@ package com.ecomarket.ecomarket.controller;
 
 
 import com.ecomarket.ecomarket.model.Cliente;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.ecomarket.ecomarket.resource.ClienteResource;
+import com.ecomarket.ecomarket.assemblers.ClienteResourceAssembler;
+import com.ecomarket.ecomarket.service.ClienteService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ecomarket.ecomarket.service.ClienteService;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/ECO-Market/v1/clientes")
 public class ClienteController {
 
-    @Autowired
-    private ClienteService clienteService;
+    private final ClienteService clienteService;
+    private final ClienteResourceAssembler clienteAssembler;
 
-    @GetMapping
-    public ResponseEntity<List<Cliente>>listar(){
-        List<Cliente> clientes = clienteService.findAll();
-        if (clientes.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(clientes);
-    }
-
-    @PostMapping
-    public ResponseEntity<Cliente> guardar(@RequestBody Cliente cliente){
-        Cliente clienteNuevo = clienteService.save(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteNuevo);
+    public ClienteController(ClienteService clienteService, ClienteResourceAssembler clienteAssembler) {
+        this.clienteService = clienteService;
+        this.clienteAssembler = clienteAssembler;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscar(@PathVariable Long id){
-        try{
-            Cliente cliente = clienteService.findById(id);
-            return ResponseEntity.ok(cliente);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> actualizar(@PathVariable Long id, @RequestBody Cliente cliente){
-        try{
-            Cliente cli = clienteService.findById(id);
-            cli.setIdCliente(id);
-            cli.setApellido(cliente.getApellido());
-            cli.setContrasena(cliente.getContrasena());
-            cli.setCorreo(cliente.getCorreo());
-            cli.setNombre(cliente.getNombre());
-            cli.setDireccionEnvio(cliente.getDireccionEnvio());
-            cli.setMetodoPagoPreferido(cliente.getMetodoPagoPreferido());
-            cli.setNumeroTarjeta(cliente.getNumeroTarjeta());
-            cli.setTelefono(cliente.getTelefono());
-
-            clienteService.save(cli);
-            return ResponseEntity.ok(cli);
-        } catch ( Exception e ) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ClienteResource> obtenerCliente(@PathVariable Long id) {
+        Cliente cliente = clienteService.obtenerClientePorId(id);
+        if (cliente == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteAssembler.toModel(cliente));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Cliente> eliminar(@PathVariable Long id){
-        try{
-            clienteService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> eliminarCliente(@PathVariable Long id) {
+        clienteService.eliminarCliente(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteResource> actualizarCliente(@PathVariable Long id, @RequestBody Cliente clienteActualizado) {
+        Cliente updatedCliente = clienteService.actualizarCliente(id, clienteActualizado);
+        if (updatedCliente == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(clienteAssembler.toModel(updatedCliente));
+    }
+
+    @GetMapping
+    public CollectionModel<ClienteResource> listarClientes() {
+        List<Cliente> clientes = clienteService.listarTodosLosClientes();
+        List<ClienteResource> resources = clientes.stream()
+                .map(clienteAssembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(resources,
+                linkTo(methodOn(ClienteController.class).listarClientes()).withSelfRel());
+    }
+
+    @PostMapping
+    public ResponseEntity<ClienteResource> crearCliente(@RequestBody Cliente nuevoCliente) {
+        Cliente clienteGuardado = clienteService.crearCliente(nuevoCliente);
+        return ResponseEntity
+                .created(linkTo(methodOn(ClienteController.class).obtenerCliente(clienteGuardado.getIdCliente())).toUri())
+                .body(clienteAssembler.toModel(clienteGuardado));
     }
 
 }

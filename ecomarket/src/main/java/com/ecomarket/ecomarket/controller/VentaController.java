@@ -1,74 +1,67 @@
 package com.ecomarket.ecomarket.controller;
 
-
 import com.ecomarket.ecomarket.model.Venta;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecomarket.ecomarket.resource.VentaResource;
+import com.ecomarket.ecomarket.assemblers.VentaResourceAssembler;
+import com.ecomarket.ecomarket.service.VentaService;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
-import com.ecomarket.ecomarket.service.VentaService;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/ECO-Market/v1/ventas")
 public class VentaController {
 
-    @Autowired
-    private VentaService ventaService;
+    private final VentaService ventaService;
+    private final VentaResourceAssembler ventaAssembler;
 
-    @GetMapping
-    public ResponseEntity<List<Venta>> listar(){
-        List<Venta> ventas = ventaService.findall();
-        if (ventas.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(ventas);
-    }
-
-    @PostMapping
-    public ResponseEntity<Venta> guardar(@RequestBody Venta venta){
-        Venta ventaNueva = ventaService.save(venta);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ventaNueva);
+    public VentaController(VentaService ventaService, VentaResourceAssembler ventaAssembler) {
+        this.ventaService = ventaService;
+        this.ventaAssembler = ventaAssembler;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> buscar(@PathVariable Long id){
-        try{
-            Venta venta = ventaService.findById(id);
-            return ResponseEntity.ok(venta);
-        } catch ( Exception e ){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Venta> actualizar(@PathVariable Long id, @RequestBody Venta venta){
-        try{
-            Venta ven = ventaService.findById(id);
-            ven.setIdVenta(id);
-            ven.setEstadoVenta(venta.getEstadoVenta());
-            ven.setFechaVenta(venta.getFechaVenta());
-            ven.setNombre(venta.getNombre());
-            ven.setDireccionEntrega(venta.getDireccionEntrega());
-            ven.setMetodoPago(venta.getMetodoPago());
-            ven.setProductos(venta.getProductos());
-
-            ventaService.save(ven);
-            return ResponseEntity.ok(venta);
-        } catch ( Exception e ) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<VentaResource> obtenerVenta(@PathVariable Long id) {
+        Venta venta = ventaService.obtenerVentaPorId(id);
+        if (venta == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(ventaAssembler.toModel(venta));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminar(@PathVariable Long id){
-        try {
-            ventaService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> eliminarVenta(@PathVariable Long id) {
+        ventaService.eliminarVenta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<VentaResource> actualizarVenta(@PathVariable Long id, @RequestBody Venta ventaActualizada) {
+        Venta updatedVenta = ventaService.actualizarVenta(id, ventaActualizada);
+        if (updatedVenta == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(ventaAssembler.toModel(updatedVenta));
+    }
+
+    @GetMapping
+    public CollectionModel<VentaResource> listarVentas() {
+        List<Venta> ventas = ventaService.listarTodasLasVentas();
+        List<VentaResource> resources = ventas.stream()
+                .map(ventaAssembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(resources,
+                linkTo(methodOn(VentaController.class).listarVentas()).withSelfRel());
+    }
+
+    @PostMapping
+    public ResponseEntity<VentaResource> crearVenta(@RequestBody Venta nuevaVenta) {
+        Venta ventaGuardada = ventaService.crearVenta(nuevaVenta);
+        return ResponseEntity
+                .created(linkTo(methodOn(VentaController.class).obtenerVenta(ventaGuardada.getIdVenta())).toUri())
+                .body(ventaAssembler.toModel(ventaGuardada));
     }
 
 }

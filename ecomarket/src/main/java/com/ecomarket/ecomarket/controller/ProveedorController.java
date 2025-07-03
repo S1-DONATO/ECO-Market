@@ -1,71 +1,67 @@
 package com.ecomarket.ecomarket.controller;
 
 import com.ecomarket.ecomarket.model.Proveedor;
+import com.ecomarket.ecomarket.resource.ProveedorResource;
+import com.ecomarket.ecomarket.assemblers.ProveedorResourceAssembler;
 import com.ecomarket.ecomarket.service.ProveedorService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/ECO-Market/v1/proveedores")
 public class ProveedorController {
 
-    @Autowired
-    private ProveedorService proveedorService;
+    private final ProveedorService proveedorService;
+    private final ProveedorResourceAssembler proveedorAssembler;
 
-    @GetMapping
-    public ResponseEntity<List<Proveedor>> listar(){
-        List<Proveedor> proveedores = proveedorService.findAll();
-        if (proveedores.isEmpty()){
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(proveedores);
-    }
-
-    @PostMapping
-    public ResponseEntity<Proveedor> guardar(@RequestBody Proveedor proveedor){
-        Proveedor proveedorNuevo = proveedorService.save(proveedor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(proveedorNuevo);
+    public ProveedorController(ProveedorService proveedorService, ProveedorResourceAssembler proveedorAssembler) {
+        this.proveedorService = proveedorService;
+        this.proveedorAssembler = proveedorAssembler;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Proveedor> buscar(@PathVariable Long id){
-        try{
-            Proveedor proveedor = proveedorService.findById(id);
-            return ResponseEntity.ok(proveedor);
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Proveedor> actualizar(@PathVariable Long id, @RequestBody Proveedor proveedor){
-        try{
-            Proveedor prov = proveedorService.findById(id);
-            prov.setIdProveedor(id);
-            prov.setNombreProveedor(proveedor.getNombreProveedor());
-            prov.setCorreo(proveedor.getCorreo());
-            prov.setTelefonoProveedor(proveedor.getTelefonoProveedor());
-            prov.setProductoSuministrado(proveedor.getProductoSuministrado());
-
-            proveedorService.save(prov);
-            return ResponseEntity.ok(prov);
-        } catch ( Exception e ) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ProveedorResource> obtenerProveedor(@PathVariable Long id) {
+        Proveedor proveedor = proveedorService.obtenerProveedorPorId(id);
+        if (proveedor == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(proveedorAssembler.toModel(proveedor));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Proveedor> eliminar(@PathVariable Long id){
-        try{
-            proveedorService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<?> eliminarProveedor(@PathVariable Long id) {
+        proveedorService.eliminarProveedor(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProveedorResource> actualizarProveedor(@PathVariable Long id, @RequestBody Proveedor proveedorActualizado) {
+        Proveedor updatedProveedor = proveedorService.actualizarProveedor(id, proveedorActualizado);
+        if (updatedProveedor == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(proveedorAssembler.toModel(updatedProveedor));
+    }
+
+    @GetMapping
+    public CollectionModel<ProveedorResource> listarProveedores() {
+        List<Proveedor> productos = proveedorService.listarTodosLosProveedores();
+        List<ProveedorResource> resources = productos.stream()
+                .map(proveedorAssembler::toModel)
+                .collect(Collectors.toList());
+        return CollectionModel.of(resources,
+                linkTo(methodOn(ProveedorController.class).listarProveedores()).withSelfRel());
+    }
+
+    @PostMapping
+    public ResponseEntity<ProveedorResource> crearProveedor(@RequestBody Proveedor nuevoProveedor) {
+        Proveedor proveedorGuardado = proveedorService.crearProveedor(nuevoProveedor);
+        return ResponseEntity
+                .created(linkTo(methodOn(ProveedorController.class).obtenerProveedor(proveedorGuardado.getIdProveedor())).toUri())
+                .body(proveedorAssembler.toModel(proveedorGuardado));
     }
 
 }
