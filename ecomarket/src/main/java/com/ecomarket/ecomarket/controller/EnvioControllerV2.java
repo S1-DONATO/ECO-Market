@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/ECO-Market/v2/envios")
+@RequestMapping("/api/v2/envios")
 public class EnvioControllerV2 {
 
     private final EnvioService envioService;

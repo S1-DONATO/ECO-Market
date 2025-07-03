@@ -3,7 +3,6 @@ package com.ecomarket.ecomarket.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 
 @Entity
 @Table(name= "proveedor")

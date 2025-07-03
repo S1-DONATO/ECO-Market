@@ -66,12 +66,12 @@ public class ProveedorService {
         return proveedorRepository.findByTelefonoProveedor(telefonoProveedor);
     }
 
-    public List<Proveedor> findByNombre(String nombreProveedor) {
-        return proveedorRepository.findByNombre(nombreProveedor);
+    public List<Proveedor> findByNombreProveedor(String nombreProveedor) {
+        return proveedorRepository.findByNombreProveedor(nombreProveedor);
     }
 
-    public List<Proveedor> findByProductoSuministrado(Producto producto) {
-        return proveedorRepository.findByProductoSuministrado(producto);
+    public List<Proveedor> findByProductoSuministrado(Producto productoSuministrado) {
+        return proveedorRepository.findByProductoSuministrado(productoSuministrado);
     }
 
 }

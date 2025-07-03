@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/ECO-Market/v2/pedidos")
+@RequestMapping("/api/v2/pedidos")
 public class PedidoControllerV2 {
 
     private final PedidoService pedidoService;
